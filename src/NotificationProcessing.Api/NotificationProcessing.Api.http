@@ -1,0 +1,36 @@
+@host = http://localhost:5264
+
+### Create a notification
+POST {{host}}/api/notifications
+Content-Type: application/json
+
+{
+  "customerId": "CUST-101",
+  "type": "Email",
+  "recipient": "customer@example.com",
+  "subject": "Order Confirmed",
+  "message": "Your order has been confirmed.",
+  "priority": "High"
+}
+
+### Invalid request (multiple validation errors)
+POST {{host}}/api/notifications
+Content-Type: application/json
+
+{
+  "customerId": "",
+  "type": "Sms",
+  "recipient": "not-an-email",
+  "message": "",
+  "priority": "Urgent",
+  "requestedDeliveryTime": "2020-01-01T00:00:00Z"
+}
+
+### Get notifications for a customer
+GET {{host}}/api/customers/CUST-101/notifications
+
+### Get a notification by id (replace with a real id)
+GET {{host}}/api/notifications/00000000-0000-0000-0000-000000000000
+
+### Process due pending notifications
+POST {{host}}/api/notifications/process
